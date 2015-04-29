@@ -51,9 +51,6 @@
 		die('Connect Error (' . $db->connect_errno . ') ' . $db->connect_error);
 	}
 
-	// обнуляем у всех stock
-	$db->query('update `s_variants` set `stock`=0') or die($db->error);
-
 	// проверяем дату последнего обновления
 	clearstatcache();
 	$mtime = filemtime($file_xls);
@@ -63,6 +60,9 @@
 			exit;
 		}
 	}
+	
+	// обнуляем у всех stock
+	$db->query('update `s_variants` set `stock`=0') or die($db->error);
 
 	// построчно читаем excel
 	$data = new Spreadsheet_Excel_Reader();
